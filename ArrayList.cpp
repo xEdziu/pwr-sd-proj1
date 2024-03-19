@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 
 template <typename T>
 ArrayList<T>::ArrayList() : capacity(1), length(0), array(new T[1]) {
