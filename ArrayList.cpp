@@ -102,3 +102,20 @@ void ArrayList<T>::addAt(int index, T item) {
     array[index] = item;
     ++length;
 }
+
+template <typename T>
+void ArrayList<T>::removeAt(int index) {
+    if (index < 0 || index >= length) {
+        throw std::out_of_range("Index out of range");
+    }
+    for (int i = index; i < length - 1; ++i) {
+        array[i] = array[i + 1];
+    }
+    --length;
+}
+
+template class ArrayList<int>;
+template class ArrayList<double>;
+template class ArrayList<float>;
+template class ArrayList<long>;
+template class ArrayList<short>;
