@@ -17,6 +17,14 @@ public:
     ArrayList();
 
     /*
+        * Constructor
+        * Initializes the capacity, length and allocates memory for the array
+        * @param file - the file from which the array list is to be built
+        * @return none
+    */
+    ArrayList(const char* filename);
+
+    /*
         * Destructor
         * Deallocates memory for the array
         * @param none

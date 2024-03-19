@@ -3,11 +3,29 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <fstream>
 
 template <typename T>
 ArrayList<T>::ArrayList() : capacity(1), length(0), array(new T[1]) {
     srand(time(0));
 }
+
+template <typename T>
+ArrayList<T>::ArrayList(const char* filename) {
+    capacity = 1;
+    length = 0;
+    array = new T[1];
+    srand(time(0));
+    std::ifstream file(filename);
+    if (file.is_open()) {
+        T item;
+        while (file >> item) {
+            addAtEnd(item);
+        }
+        file.close();
+    }
+}
+
 
 template <typename T>
 ArrayList<T>::~ArrayList() {
@@ -125,7 +143,3 @@ void ArrayList<T>::print() {
 }
 
 template class ArrayList<int>;
-template class ArrayList<double>;
-template class ArrayList<float>;
-template class ArrayList<long>;
-template class ArrayList<short>;
