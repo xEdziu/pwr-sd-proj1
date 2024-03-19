@@ -114,6 +114,15 @@ void ArrayList<T>::removeAt(int index) {
     --length;
 }
 
+template <typename T>
+void ArrayList<T>::print() {
+    std::cout << "List: ";
+    for (int i = 0; i < length; ++i) {
+        std::cout << array[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
 template class ArrayList<int>;
 template class ArrayList<double>;
 template class ArrayList<float>;

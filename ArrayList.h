@@ -87,6 +87,13 @@ public:
     */
     int size();
 
+    /*
+        * Prints the list
+        * @param none
+        * @return none
+    */
+    void print();
+
 private:
     T* array;
     int capacity;
