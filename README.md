@@ -5,4 +5,4 @@
 - - `sudo apt-get install gcc`
 
 # How to run
-- `g++ main.cpp ArrayList.cpp -lncurses -std=c++17`
+- `g++ main.cpp ArrayList.cpp -lncurses -lmenu -std=c++17`
