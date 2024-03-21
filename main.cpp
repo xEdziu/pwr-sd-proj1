@@ -7,6 +7,7 @@
 #include <vector>
 #include "ArrayList.h"
 #include "SinglyLinkedHeadList.h"
+#include "SinglyLinkedHeadTailList.h"
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
@@ -15,6 +16,7 @@ namespace fs = std::filesystem;
 
 ArrayList<int> *arrayList = nullptr;
 SinglyLinkedHeadList<int> *singlyLinkedHeadList = nullptr;
+SinglyLinkedHeadTailList<int> *singlyLinkedHeadTailList = nullptr;
 
 std::vector<std::string> txtFilesInDirectory() {
     std::vector<std::string> files;
@@ -95,17 +97,14 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                 if (strcmp(item_name(cur_item), "Print list") == 0) {
                     clear();
                     //check which structure is selected
+                    mvprintw(0, 0, "Press any key to return to main menu");
                     if (strcmp(choice, "Array List") == 0) {
-
-                        mvprintw(0, 0, "Press any key to return to main menu");
                         mvprintw(1, 0, "Array List: ");
                         for (int i = 0; i < arrayList->size(); ++i) {+
                             mvprintw(i+2, 0, "%d", arrayList->get(i));
                         }
                     }
                     else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        
-                        mvprintw(0, 0, "Press any key to return to main menu");
                         mvprintw(1, 0, "Singly Linked List - Head: ");
                         for (int i = 0; i < singlyLinkedHeadList->size(); ++i) {
                             mvprintw(i+2, 0, "%d", singlyLinkedHeadList->get(i));
@@ -113,7 +112,11 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
 
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        //print singly linked list
+                        mvprintw(1, 0, "Singly Linked List - Head & Tail: ");
+                        for (int i = 0; i < singlyLinkedHeadTailList->size(); ++i) {
+                            mvprintw(i+2, 0, "%d", singlyLinkedHeadTailList->get(i));
+                        }
+
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //print doubly linked list
@@ -135,7 +138,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                         singlyLinkedHeadList = new SinglyLinkedHeadList<int>();
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        //create singly linked list
+                        singlyLinkedHeadTailList = new SinglyLinkedHeadTailList<int>();
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //create doubly linked list
@@ -166,7 +169,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                         singlyLinkedHeadList = new SinglyLinkedHeadList<int>(files[fileNumber - 1].c_str());
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        //build singly linked list from file
+                        singlyLinkedHeadTailList = new SinglyLinkedHeadTailList<int>(files[fileNumber - 1].c_str());
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //build doubly linked list from file
@@ -193,7 +196,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                         singlyLinkedHeadList->addAtStart(element);
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        //add element at start
+                        singlyLinkedHeadTailList->addAtStart(element);
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //add element at start
@@ -221,7 +224,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                         singlyLinkedHeadList->addAtEnd(element);
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        //add element at end
+                        singlyLinkedHeadTailList->addAtEnd(element);
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //add element at end
@@ -250,6 +253,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //add element at random position
+                        singlyLinkedHeadTailList->addAtRandom(element);
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //add element at random position
@@ -272,6 +276,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //remove element from start
+                        singlyLinkedHeadTailList->removeAtStart();
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //remove element from start
@@ -294,6 +299,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //remove element from end
+                        singlyLinkedHeadTailList->removeAtEnd();
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //remove element from end
@@ -317,6 +323,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //remove element from random position
+                        singlyLinkedHeadTailList->removeAtRandom();
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //remove element from random position
@@ -347,6 +354,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //find element
+                        index = singlyLinkedHeadTailList->find(element);
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //find element
@@ -384,6 +392,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //get element from index
+                        element = singlyLinkedHeadTailList->get(index);
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //get element from index
