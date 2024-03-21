@@ -1,6 +1,7 @@
 // SinglyLinkedHeadList.cpp
 #include "SinglyLinkedHeadList.h"
 #include <cstdlib>
+#include <fstream>
 
 template <typename T>
 SinglyLinkedHeadList<T>::SinglyLinkedHeadList() : head(NULL), length(0) {}
@@ -121,6 +122,32 @@ void SinglyLinkedHeadList<T>::removeAtEnd() {
         current->next = NULL;
     }
     length--;
+}
+
+template <typename T>
+int SinglyLinkedHeadList<T>::find(T data) {
+    Node<T>* current = head;
+    int index = 0;
+    while (current != NULL) {
+        if (current->data == data) {
+            return index;
+        }
+        current = current->next;
+        index++;
+    }
+    return -1;
+}
+
+template <typename T>
+T SinglyLinkedHeadList<T>::get(int index) {
+    if (index < 0 || index >= length) {
+        throw std::out_of_range("Index out of range");
+    }
+    Node<T>* current = head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    return current->data;
 }
 
 template <typename T>
