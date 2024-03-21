@@ -8,6 +8,7 @@
 #include "ArrayList.h"
 #include "SinglyLinkedHeadList.h"
 #include "SinglyLinkedHeadTailList.h"
+#include "DoublyLinkedList.h"
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
@@ -17,6 +18,7 @@ namespace fs = std::filesystem;
 ArrayList<int> *arrayList = nullptr;
 SinglyLinkedHeadList<int> *singlyLinkedHeadList = nullptr;
 SinglyLinkedHeadTailList<int> *singlyLinkedHeadTailList = nullptr;
+DoublyLinkedList<int> *doublyLinkedList = nullptr;
 
 std::vector<std::string> txtFilesInDirectory() {
     std::vector<std::string> files;
@@ -119,7 +121,10 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
 
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        //print doubly linked list
+                        mvprintw(1, 0, "Doubly Linked List: ");
+                        for (int i = 0; i < doublyLinkedList->size(); ++i) {
+                            mvprintw(i+2, 0, "%d", doublyLinkedList->get(i));
+                        }
                     }
                     leave = true;
                     break;
@@ -141,7 +146,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                         singlyLinkedHeadTailList = new SinglyLinkedHeadTailList<int>();
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        //create doubly linked list
+                        doublyLinkedList = new DoublyLinkedList<int>();
                     }
                     mvprintw(1, 0, "Empty structure created");
                     leave = true;
@@ -172,7 +177,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                         singlyLinkedHeadTailList = new SinglyLinkedHeadTailList<int>(files[fileNumber - 1].c_str());
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        //build doubly linked list from file
+                        doublyLinkedList = new DoublyLinkedList<int>(files[fileNumber - 1].c_str());
                     }
                     mvprintw(files.size()+3, 0, "Structure built from file");
                     mvprintw(files.size()+4, 0, "Press any key to return to main menu");
@@ -200,6 +205,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //add element at start
+                        doublyLinkedList->addAtStart(element);
                     }
                     
                     mvprintw(0, 0, "Element added at start");
@@ -228,6 +234,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //add element at end
+                        doublyLinkedList->addAtEnd(element);
                     }
 
                     mvprintw(0, 0, "Element added at end");
@@ -257,6 +264,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //add element at random position
+                        doublyLinkedList->addAtRandom(element);
                     }
 
                     mvprintw(0, 0, "Element added at random position");
@@ -280,6 +288,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //remove element from start
+                        doublyLinkedList->removeAtStart();
                     }
 
                     mvprintw(0, 0, "Element removed from start");
@@ -303,6 +312,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //remove element from end
+                        doublyLinkedList->removeAtEnd();
                     }
 
                     mvprintw(0, 0, "Element removed from end");
@@ -327,6 +337,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //remove element from random position
+                        doublyLinkedList->removeAtRandom();
                     }
 
                     mvprintw(0, 0, "Element removed from random position");
@@ -358,6 +369,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //find element
+                        index = doublyLinkedList->find(element);
                     }
 
 
@@ -396,6 +408,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //get element from index
+                        element = doublyLinkedList->get(index);
                     }
 
                     mvprintw(1, 0, "Element at index %d: %d", index, element);
