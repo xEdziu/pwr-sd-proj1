@@ -25,6 +25,15 @@ public:
     */
     SinglyLinkedHeadList();
 
+
+    /*
+        * Constructor
+        * Initializes the head and length
+        * @param filename - the file from which the list is to be built
+        * @return none
+    */
+    SinglyLinkedHeadList(const char* filename);
+
     /*
         * Destructor
         * Deallocates memory for the list
@@ -41,13 +50,6 @@ public:
     void addAtStart(T data);
 
     /*
-        * Removes an item from the start of the list
-        * @param none
-        * @return none
-    */
-    void removeAtStart();
-
-    /*
         * Adds an item at a random position in the list
         * @param data - the item to be added
         * @return none
@@ -60,6 +62,13 @@ public:
         * @return none
     */
     void addAtEnd(T data);
+    
+    /*
+        * Removes an item from the start of the list
+        * @param none
+        * @return none
+    */
+    void removeAtStart();
 
     /*
         * Removes an item from a random position in the list

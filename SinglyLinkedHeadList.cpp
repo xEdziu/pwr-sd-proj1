@@ -15,6 +15,22 @@ SinglyLinkedHeadList<T>::~SinglyLinkedHeadList() {
 }
 
 template <typename T>
+SinglyLinkedHeadList<T>::SinglyLinkedHeadList(const char* filename) : head(NULL), length(0) {
+    srand(time(0));
+    int lines = 0;
+    std::ifstream file(filename);
+    if (file.is_open()) {
+        T item;
+        while (file >> item) {
+            addAtEnd(item);
+            lines++;
+        }
+        file.close();
+    }
+    length = lines;
+}
+
+template <typename T>
 void SinglyLinkedHeadList<T>::addAtStart(T data) {
     Node<T>* newNode = new Node<T>;
     newNode->data = data;
