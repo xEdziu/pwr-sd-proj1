@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "ArrayList.h"
+#include "SinglyLinkedHeadList.h"
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
@@ -13,6 +14,7 @@
 namespace fs = std::filesystem;
 
 ArrayList<int> *arrayList = nullptr;
+SinglyLinkedHeadList<int> *singlyLinkedHeadList = nullptr;
 
 std::vector<std::string> txtFilesInDirectory() {
     std::vector<std::string> files;
@@ -102,7 +104,13 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                         }
                     }
                     else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        //print singly linked list
+                        
+                        mvprintw(0, 0, "Press any key to return to main menu");
+                        mvprintw(1, 0, "Singly Linked List - Head: ");
+                        for (int i = 0; i < singlyLinkedHeadList->size(); ++i) {
+                            mvprintw(i+2, 0, "%d", singlyLinkedHeadList->get(i));
+                        }
+
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //print singly linked list
@@ -124,7 +132,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                         arrayList = new ArrayList<int>();
                     }
                     else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        //create singly linked list
+                        singlyLinkedHeadList = new SinglyLinkedHeadList<int>();
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //create singly linked list
@@ -155,7 +163,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                         arrayList = new ArrayList<int>(files[fileNumber - 1].c_str());
                     }
                     else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        //build singly linked list from file
+                        singlyLinkedHeadList = new SinglyLinkedHeadList<int>(files[fileNumber - 1].c_str());
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //build singly linked list from file
@@ -170,18 +178,19 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                 }
                 else if (strcmp(item_name(cur_item), "Add element at start") == 0) {
                     clear();
+                    int element;
+                    echo();
+                    mvprintw(0, 0, "Enter integer element to add: ");
+                    scanw("%d", &element);
+                    noecho();
                     //check which structure is selected
                     if (strcmp(choice, "Array List") == 0) {
                         //add element at start
-                        int element;
-                        echo();
-                        mvprintw(0, 0, "Enter integer element to add: ");
-                        scanw("%d", &element);
-                        noecho();
                         arrayList->addAtStart(element);
                     }
                     else if (strcmp(choice, "Singly Linked List - Head") == 0) {
                         //add element at start
+                        singlyLinkedHeadList->addAtStart(element);
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //add element at start
@@ -197,18 +206,19 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                 }
                 else if (strcmp(item_name(cur_item), "Add element at end") == 0) {
                     clear();
+                    int element;
+                    echo();
+                    mvprintw(0, 0, "Enter element to add: ");
+                    scanw("%d", &element);
+                    noecho();
 
                     if (strcmp(choice, "Array List") == 0) {
                         //add element at end
-                        int element;
-                        echo();
-                        mvprintw(0, 0, "Enter element to add: ");
-                        scanw("%d", &element);
-                        noecho();
                         arrayList->addAtEnd(element);
                     }
                     else if (strcmp(choice, "Singly Linked List - Head") == 0) {
                         //add element at end
+                        singlyLinkedHeadList->addAtEnd(element);
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //add element at end
@@ -224,19 +234,19 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                 }
                 else if (strcmp(item_name(cur_item), "Add element at random position") == 0) {
                     clear();
+                    int element;
+                    echo();
+                    mvprintw(0, 0, "Enter element to add: ");
+                    scanw("%d", &element);
+                    noecho();
                     
                     if (strcmp(choice, "Array List") == 0) {
                         //add element at random position
-                        int element;
-                        int position;
-                        echo();
-                        mvprintw(0, 0, "Enter element to add: ");
-                        scanw("%d", &element);
-                        noecho();
                         arrayList->addAtRandom(element);
                     }
                     else if (strcmp(choice, "Singly Linked List - Head") == 0) {
                         //add element at random position
+                        singlyLinkedHeadList->addAtRandom(element);
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //add element at random position
@@ -258,6 +268,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Singly Linked List - Head") == 0) {
                         //remove element from start
+                        singlyLinkedHeadList->removeAtStart();
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //remove element from start
@@ -279,6 +290,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Singly Linked List - Head") == 0) {
                         //remove element from end
+                        arrayList->removeAtEnd();
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //remove element from end
@@ -301,6 +313,7 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     }
                     else if (strcmp(choice, "Singly Linked List - Head") == 0) {
                         //remove element from random position
+                        singlyLinkedHeadList->removeAtRandom();
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //remove element from random position
@@ -317,31 +330,34 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                 }
                 else if (strcmp(item_name(cur_item), "Find element") == 0) {
                     clear();
-                    
+                    int element;
+                    echo();
+                    mvprintw(0, 0, "Enter element to find: ");
+                    scanw("%d", &element);
+                    noecho();
+                    int index = -1;
 
                     if (strcmp(choice, "Array List") == 0) {
                         //find element
-                        int element;
-                        echo();
-                        mvprintw(0, 0, "Enter element to find: ");
-                        scanw("%d", &element);
-                        noecho();
-                        int index = arrayList->find(element);
-                        if (index != -1) {
-                            mvprintw(1, 0, "Element found at index: %d", index);
-                        }
-                        else {
-                            mvprintw(1, 0, "Element not found");
-                        }
+                        index = arrayList->find(element);
                     }
                     else if (strcmp(choice, "Singly Linked List - Head") == 0) {
                         //find element
+                        index = singlyLinkedHeadList->find(element);
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //find element
                     }
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //find element
+                    }
+
+
+                    if (index != -1) {
+                        mvprintw(1, 0, "Element found at index: %d", index);
+                    }
+                    else {
+                        mvprintw(1, 0, "Element not found");
                     }
 
                     mvprintw(2, 0, "Press any key to return to main menu");
@@ -351,19 +367,20 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                 }
                 else if (strcmp(item_name(cur_item), "Get element from index") == 0) {
                     clear();
+                    int index;
+                    echo();
+                    mvprintw(0, 0, "Enter index: ");
+                    scanw("%d", &index);
+                    noecho();
+                    int element;
                     
                     if (strcmp(choice, "Array List") == 0) {
                         //get element from index
-                        int index;
-                        echo();
-                        mvprintw(0, 0, "Enter index: ");
-                        scanw("%d", &index);
-                        int element = arrayList->get(index);
-                        noecho();
-                        mvprintw(1, 0, "Element at index %d: %d", index, element);
+                        element = arrayList->get(index);
                     }
                     else if (strcmp(choice, "Singly Linked List - Head") == 0) {
                         //get element from index
+                        element = singlyLinkedHeadList->get(index);
                     }
                     else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
                         //get element from index
@@ -371,6 +388,8 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     else if (strcmp(choice, "Doubly Linked List") == 0) {
                         //get element from index
                     }
+
+                    mvprintw(1, 0, "Element at index %d: %d", index, element);
 
                     mvprintw(2, 0, "Press any key to return to main menu");
                     leave = true;
