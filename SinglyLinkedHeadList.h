@@ -62,7 +62,7 @@ public:
         * @return none
     */
     void addAtEnd(T data);
-    
+
     /*
         * Removes an item from the start of the list
         * @param none
@@ -83,6 +83,20 @@ public:
         * @return none
     */
     void removeAtEnd();
+
+    /*
+        * Finds an item in the list
+        * @param data - the item to be found
+        * @return the index of the item
+    */
+    int find(T data);
+
+    /*
+        * Gets an item from the list
+        * @param index - the index of the item
+        * @return the item at the index
+    */
+    T get(int index);
 
     /*
         * Returns the size of the list
