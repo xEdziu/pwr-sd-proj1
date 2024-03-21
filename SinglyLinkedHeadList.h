@@ -3,12 +3,7 @@
 #define SINGLYLINKEDHEADLIST_H
 
 #include <iostream>
-
-template <typename T>
-struct Node {
-    T data;
-    Node* next;
-};
+#include "Node.h"
 
 template <typename T>
 class SinglyLinkedHeadList {

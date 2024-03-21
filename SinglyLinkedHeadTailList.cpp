@@ -6,6 +6,15 @@ template <typename T>
 SinglyLinkedHeadTailList<T>::SinglyLinkedHeadTailList() : head(nullptr), tail(nullptr), length(0) {}
 
 template <typename T>
+SinglyLinkedHeadTailList<T>::SinglyLinkedHeadTailList(const char* filename) : head(nullptr), tail(nullptr), length(0) {
+    std::ifstream file(filename);
+    T data;
+    while (file >> data) {
+        addAtEnd(data);
+    }
+}
+
+template <typename T>
 SinglyLinkedHeadTailList<T>::~SinglyLinkedHeadTailList() {
     while (head != nullptr) {
         Node<T>* next = head->next;
@@ -148,3 +157,5 @@ void SinglyLinkedHeadTailList<T>::print() {
     }
     std::cout << std::endl;
 }
+
+template class SinglyLinkedHeadTailList<int>;
