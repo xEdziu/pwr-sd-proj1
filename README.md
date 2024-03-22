@@ -1,8 +1,8 @@
 # Requirements
 - `ncurses` library
 - - `sudo apt-get install libncurses5-dev libncursesw5-dev`
-- `gcc` compiler
-- - `sudo apt-get install gcc`
+- `g++` compiler
+- - `sudo apt-get install g++`
 
 # How to compile & run
 ## Compile
