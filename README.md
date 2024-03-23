@@ -16,4 +16,4 @@
 - VMWare Workstation 16 Player
 - Ubuntu 64-bit 22.04.4-desktop
 - 2 CPU cores
-- 4 GB RAM
+- 12 GB RAM
