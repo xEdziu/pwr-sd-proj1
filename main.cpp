@@ -441,13 +441,32 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
     refresh();  // Odświeżenie ekranu
 }
 
+void testStructures() {
+    clear();
+    mvprintw(0, 0, "Performing structures tests");
+    mvprintw(1, 0, "Press any key to return to main menu");
+    //create output file "output.txt" and write results of tests
+    std::ofstream output("output.txt");
+    //get current time
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    output << "Date: " << ltm->tm_mday << "." << 1 + ltm->tm_mon << "." << 1900 + ltm->tm_year << std::endl;
+    output << "Time: " << ltm->tm_hour << ":" << ltm->tm_min << ":" << ltm->tm_sec << std::endl;
+
+    //array list tests
+
+    output << "Array List: " << std::endl;
+    refresh();
+}
+
 int main() {
 
     const char *choices[] = {
         "Array List",
         "Singly Linked List - Head",
         "Singly Linked List - Head & Tail",
-        "Doubly Linked List"
+        "Doubly Linked List",
+        "Perform Structures Tests"
     };
 
     ITEM **my_items;
@@ -489,6 +508,11 @@ int main() {
                 break;
             case 10: /* Enter */
             { 
+                if (str_comp(item_name(current_item(my_menu)), "Perform Structures Tests") == 0) {
+                    unpost_menu(my_menu);
+                    testStructures();
+                }
+
                 ITEM *cur_item = current_item(my_menu);
                 unpost_menu(my_menu);  // Odpięcie menu przed przejściem do sub-menu
                 clear();  // Wyczyszczenie ekranu przed przejściem do sub-menu
