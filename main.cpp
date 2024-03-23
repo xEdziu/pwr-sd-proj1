@@ -5,6 +5,8 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <ctime>
+#include <fstream>
 #include "ArrayList.h"
 #include "SinglyLinkedHeadList.h"
 #include "SinglyLinkedHeadTailList.h"
@@ -441,21 +443,92 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
     refresh();  // Odświeżenie ekranu
 }
 
-void testStructures() {
+template<typename Structure, typename T>
+void testOperation(Structure* &structure, const std::string& operationType, T operationArgument,int removeOperationArgument, int findOperationArgument, int iteration, int size,  std::ofstream& output, std::string structureName) {
+    clock_t start, end;
+    if (operationType == "addAtStart") {
+        start = clock();
+        structure->addAtStart(operationArgument);
+        end = clock();
+    } else if (operationType == "addAtEnd") {
+        start = clock();
+        structure->addAtEnd(operationArgument);
+        end = clock();
+    } else if (operationType == "addAtRandom") {
+        start = clock();
+        structure->addAtRandom(operationArgument);
+        end = clock();
+    } else if (operationType == "removeAtStart") {
+        start = clock();
+        structure->removeAtStart();
+        end = clock();
+    } else if (operationType == "removeAtEnd") {
+        start = clock();
+        structure->removeAtEnd();
+        end = clock();
+    } else if (operationType == "removeAtRandom") {
+        end = clock();
+        structure->removeAtRandom();
+        end = clock();
+    } else if (operationType == "find") {
+        start = clock();
+        structure->find(findOperationArgument);
+        end = clock();
+    }
+
+    std::string iterationS = std::to_string(iteration);
+    
+    double time = ((double)(end - start) / CLOCKS_PER_SEC) * 1000;
+    output << iterationS << ";" << structureName << ";" << size << ";" << operationType << ";" << time << "\n";
+}
+
+template<typename Structure>
+void performTests(std::ofstream& output, std::string structureName) {
+    int sizes[] = {1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000};
+    std::string operations[] = {"addAtStart", "addAtEnd", "addAtRandom", "removeAtStart", "removeAtEnd", "removeAtRandom", "find"};
+    int toAdd = -1;
+
+    for (int size : sizes) {
+        int removeOperationArgument = rand() % size;
+        int findOperationArgument = rand() % size;
+        for (const std::string& operation : operations) {
+            for (int i = 1; i <= 10; i++) {
+                std::string fileName = "list_" + std::to_string(size) + ".txt";
+                Structure* structure = new Structure(fileName.c_str());
+                testOperation(structure, operation, toAdd, removeOperationArgument,
+                findOperationArgument, i, size, output, structureName);
+                delete structure;
+                std::cout << "Iteration " << i << " - " << operation << " on structure " << structureName << " - " << size << " elements has ended." << std::endl;
+            }
+        }
+    }
+}
+
+void testStructures(MENU *main_menu) {
+    endwin();
+    std::cout << "Performing structures tests..." << std::endl;
+    std::ofstream output("results.csv");
+    output << "iteration;type;size;action;timeMs\n";
+    int line = 0;
+
+    performTests<ArrayList<int>>(output, "ArrayList");
+    performTests<SinglyLinkedHeadList<int>>(output, "SinglyLinkedHeadList");
+    performTests<SinglyLinkedHeadTailList<int>>(output, "SinglyLinkedHeadTailList");
+    performTests<DoublyLinkedList<int>>(output, "DoublyLinkedList");    
+
+    output.close();
+
+    refresh();
     clear();
-    mvprintw(0, 0, "Performing structures tests");
-    mvprintw(1, 0, "Press any key to return to main menu");
-    //create output file "output.txt" and write results of tests
-    std::ofstream output("output.txt");
-    //get current time
-    time_t now = time(0);
-    tm *ltm = localtime(&now);
-    output << "Date: " << ltm->tm_mday << "." << 1 + ltm->tm_mon << "." << 1900 + ltm->tm_year << std::endl;
-    output << "Time: " << ltm->tm_hour << ":" << ltm->tm_min << ":" << ltm->tm_sec << std::endl;
 
-    //array list tests
-
-    output << "Array List: " << std::endl;
+    mvprintw(line++, 0, "Tests have ended. Results saved to results.csv");
+    mvprintw(line++, 0, "Press any key to return to main menu");
+    refresh();
+    getch();
+    clear();
+    printIntro();
+    post_menu(main_menu);
+    mvprintw(LINES - 2, 0, "F1 to Exit");
     refresh();
 }
 
@@ -508,16 +581,19 @@ int main() {
                 break;
             case 10: /* Enter */
             { 
-                if (str_comp(item_name(current_item(my_menu)), "Perform Structures Tests") == 0) {
+                if (strcmp(item_name(current_item(my_menu)), "Perform Structures Tests") == 0) {
                     unpost_menu(my_menu);
-                    testStructures();
+                    clear();
+                    testStructures(my_menu);
+                    refresh();
+                } else {
+                    ITEM *cur_item = current_item(my_menu);
+                    unpost_menu(my_menu);  // Odpięcie menu przed przejściem do sub-menu
+                    clear();  // Wyczyszczenie ekranu przed przejściem do sub-menu
+                    printIntro();
+                    displaySubChoices(item_name(cur_item), my_menu);  // Wyświetlenie sub-menu
+                    refresh();
                 }
-
-                ITEM *cur_item = current_item(my_menu);
-                unpost_menu(my_menu);  // Odpięcie menu przed przejściem do sub-menu
-                clear();  // Wyczyszczenie ekranu przed przejściem do sub-menu
-                printIntro();
-                displaySubChoices(item_name(cur_item), my_menu);  // Wyświetlenie sub-menu
                 break;
             }
         }
