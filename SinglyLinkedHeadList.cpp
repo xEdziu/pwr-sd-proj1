@@ -89,21 +89,26 @@ void SinglyLinkedHeadList<T>::addAtEnd(T data) {
 template <typename T>
 void SinglyLinkedHeadList<T>::removeAtRandom() {
     if (head == NULL) {
-        return;
+        return; // Lista jest pusta, nie ma co usuwać
     } else if (head->next == NULL) {
+        // Lista ma tylko jeden element, więc usuwamy głowę
         delete head;
         head = NULL;
     } else {
-        Node<T>* current = head;
-        int position = rand() % length;
-        for (int i = 0; i < position - 1 && current != NULL; i++) {
-            current = current->next;
+        int position = rand() % length; // Losowanie pozycji od 0 do length - 1
+        if (position == 0) {
+            // Usuwanie pierwszego elementu
+            Node<T>* toDelete = head;
+            head = head->next;
+            delete toDelete;
+        } else {
+            // Usuwanie elementu niebędącego pierwszym w liście
+            Node<T>* current = head;
+            for (int i = 0; i < position - 1; i++) {
+                current = current->next; // Przesuwamy
+            }
         }
-        Node<T>* toDelete = current->next;
-        current->next = toDelete->next;
-        delete toDelete;
     }
-    length--;
 }
 
 template <typename T>
@@ -163,6 +168,25 @@ void SinglyLinkedHeadList<T>::print() {
         current = current->next;
     }
     std::cout << std::endl;
+}
+
+template <typename T>
+void SinglyLinkedHeadList<T>::removeAt(int index) {
+    if (index < 0 || index >= length) {
+        throw std::out_of_range("Index out of range");
+    }
+    if (index == 0) {
+        removeAtStart();
+    } else {
+        Node<T>* current = head;
+        for (int i = 0; i < index - 1; i++) {
+            current = current->next;
+        }
+        Node<T>* toDelete = current->next;
+        current->next = toDelete->next;
+        delete toDelete;
+        length--;
+    }
 }
 
 template class SinglyLinkedHeadList<int>;

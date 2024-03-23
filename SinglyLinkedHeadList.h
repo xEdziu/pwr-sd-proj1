@@ -106,6 +106,9 @@ public:
         * @return none
     */
     void print();
+
+    
+    void removeAt(int index);
 };
 
 #endif // SINGLYLINKEDHEADLIST_H

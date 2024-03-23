@@ -102,6 +102,14 @@ public:
     */
     void print();
 
+    
+    /*
+        * Removes an item from a specified index in the list
+        * @param index - the index from which the item is to be removed
+        * @return none
+    */
+    void removeAt(int index);
+
 private:
     T* array;
     int capacity;
@@ -121,13 +129,6 @@ private:
         * @return none
     */
     void addAt(int index, T item);
-
-    /*
-        * Removes an item from a specified index in the list
-        * @param index - the index from which the item is to be removed
-        * @return none
-    */
-    void removeAt(int index);
 };
 
 #endif // ARRAYLIST_H

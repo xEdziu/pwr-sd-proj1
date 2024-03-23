@@ -110,6 +110,13 @@ public:
         * @return none
     */
     void print();
+
+        /*
+        * Removes an item at a specific index
+        * @param index - the index of the item to be removed
+        * @return none
+    */
+    void removeAt(int index);
 };
 
 #endif

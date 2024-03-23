@@ -158,4 +158,23 @@ void SinglyLinkedHeadTailList<T>::print() {
     std::cout << std::endl;
 }
 
+template <typename T>
+void SinglyLinkedHeadTailList<T>::removeAt(int index) {
+    if (index < 0 || index >= length) throw std::out_of_range("Index out of range");
+    if (index == 0) {
+        removeAtStart();
+    } else if (index == length - 1) {
+        removeAtEnd();
+    } else {
+        Node<T>* current = head;
+        for (int i = 0; i < index - 1; i++) {
+            current = current->next;
+        }
+        Node<T>* nodeToDelete = current->next;
+        current->next = nodeToDelete->next;
+        delete nodeToDelete;
+        length--;
+    }
+}
+
 template class SinglyLinkedHeadTailList<int>;

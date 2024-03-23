@@ -444,7 +444,8 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
 }
 
 template<typename Structure, typename T>
-void testOperation(Structure* &structure, const std::string& operationType, T operationArgument,int removeOperationArgument, int findOperationArgument, int iteration, int size,  std::ofstream& output, std::string structureName) {
+void testOperation(Structure* &structure, const std::string& operationType, T operationArgument,int removeOperationArgument,
+ int findOperationArgument, int iteration, int size,  std::ofstream& output, std::string structureName) {
     clock_t start, end;
     if (operationType == "addAtStart") {
         start = clock();
@@ -467,8 +468,8 @@ void testOperation(Structure* &structure, const std::string& operationType, T op
         structure->removeAtEnd();
         end = clock();
     } else if (operationType == "removeAtRandom") {
-        end = clock();
-        structure->removeAtRandom();
+        start = clock();
+        structure->removeAt(removeOperationArgument);
         end = clock();
     } else if (operationType == "find") {
         start = clock();
@@ -478,7 +479,7 @@ void testOperation(Structure* &structure, const std::string& operationType, T op
 
     std::string iterationS = std::to_string(iteration);
     
-    double time = ((double)(end - start) / CLOCKS_PER_SEC) * 1000;
+    double time = ((double)(end - start) / CLOCKS_PER_SEC) * 1000.0;
     output << iterationS << ";" << structureName << ";" << size << ";" << operationType << ";" << time << "\n";
 }
 
@@ -489,8 +490,8 @@ void performTests(std::ofstream& output, std::string structureName) {
     int toAdd = -1;
 
     for (int size : sizes) {
-        int removeOperationArgument = rand() % size;
-        int findOperationArgument = rand() % size;
+        int removeOperationArgument = rand() % size + 1;
+        int findOperationArgument = rand() % size + 1;
         for (const std::string& operation : operations) {
             for (int i = 1; i <= 10; i++) {
                 std::string fileName = "list_" + std::to_string(size) + ".txt";

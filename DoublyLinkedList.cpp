@@ -177,4 +177,25 @@ void DoublyLinkedList<T>::print() {
     std::cout << std::endl;
 }
 
+template<typename T>
+void DoublyLinkedList<T>::removeAt(int position) {
+    if (position < 0 || position >= length) {
+        return;
+    }
+    if (position == 0) {
+        removeAtStart();
+    } else if (position == length - 1) {
+        removeAtEnd();
+    } else {
+        NodeDoubleList<T>* current = head;
+        for (int i = 0; i < position; i++) {
+            current = current->next;
+        }
+        current->prev->next = current->next;
+        current->next->prev = current->prev;
+        delete current;
+        length--;
+    }
+}
+
 template class DoublyLinkedList<int>;
