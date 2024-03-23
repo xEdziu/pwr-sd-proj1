@@ -507,15 +507,18 @@ void performTests(std::ofstream& output, std::string structureName) {
 
 void testStructures(MENU *main_menu) {
     endwin();
+    clock_t start, end;
     std::cout << "Performing structures tests..." << std::endl;
     std::ofstream output("results.csv");
     output << "iteration;type;size;action;timeMs\n";
     int line = 0;
 
+    start = clock();
     performTests<ArrayList<int>>(output, "ArrayList");
     performTests<SinglyLinkedHeadList<int>>(output, "SinglyLinkedHeadList");
     performTests<SinglyLinkedHeadTailList<int>>(output, "SinglyLinkedHeadTailList");
     performTests<DoublyLinkedList<int>>(output, "DoublyLinkedList");    
+    end = clock();
 
     output.close();
 
@@ -523,6 +526,7 @@ void testStructures(MENU *main_menu) {
     clear();
 
     mvprintw(line++, 0, "Tests have ended. Results saved to results.csv");
+    mvprintw(line++, 0, "Time elapsed: %f seconds", ((double)(end - start) / CLOCKS_PER_SEC));
     mvprintw(line++, 0, "Press any key to return to main menu");
     refresh();
     getch();
