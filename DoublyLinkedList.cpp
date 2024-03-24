@@ -4,10 +4,10 @@
 #include <fstream>
 
 template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList() : head(NULL), tail(NULL), length(0) {}
+DoublyLinkedList<T>::DoublyLinkedList() : head(nullptr), tail(nullptr), length(0) {}
 
 template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList(const char* filename) : head(NULL), tail(NULL), length(0) {
+DoublyLinkedList<T>::DoublyLinkedList(const char* filename) : head(nullptr), tail(nullptr), length(0) {
     srand(time(0));
     int lines = 0;
     std::ifstream file(filename);
@@ -24,7 +24,7 @@ DoublyLinkedList<T>::DoublyLinkedList(const char* filename) : head(NULL), tail(N
 
 template <typename T>
 DoublyLinkedList<T>::~DoublyLinkedList() {
-    while (head != NULL) {
+    while (head != nullptr) {
         NodeDoubleList<T>* next = head->next;
         delete head;
         head = next;
@@ -36,12 +36,12 @@ void DoublyLinkedList<T>::addAtStart(T data) {
     NodeDoubleList<T>* newNodeDoubleList = new NodeDoubleList<T>;
     newNodeDoubleList->data = data;
     newNodeDoubleList->next = head;
-    newNodeDoubleList->prev = NULL;
-    if (head != NULL) {
+    newNodeDoubleList->prev = nullptr;
+    if (head != nullptr) {
         head->prev = newNodeDoubleList;
     }
     head = newNodeDoubleList;
-    if (tail == NULL) {
+    if (tail == nullptr) {
         tail = head;
     }
     length++;
@@ -49,7 +49,7 @@ void DoublyLinkedList<T>::addAtStart(T data) {
 
 template <typename T>
 void DoublyLinkedList<T>::addAtRandom(T data) {
-    if (head == NULL) {
+    if (head == nullptr) {
         addAtStart(data);
     } else {
         int position = rand() % length;
@@ -77,13 +77,13 @@ template <typename T>
 void DoublyLinkedList<T>::addAtEnd(T data) {
     NodeDoubleList<T>* newNodeDoubleList = new NodeDoubleList<T>;
     newNodeDoubleList->data = data;
-    newNodeDoubleList->next = NULL;
+    newNodeDoubleList->next = nullptr;
     newNodeDoubleList->prev = tail;
-    if (tail != NULL) {
+    if (tail != nullptr) {
         tail->next = newNodeDoubleList;
     }
     tail = newNodeDoubleList;
-    if (head == NULL) {
+    if (head == nullptr) {
         head = tail;
     }
     length++;
@@ -91,11 +91,11 @@ void DoublyLinkedList<T>::addAtEnd(T data) {
 
 template <typename T>
 void DoublyLinkedList<T>::removeAtStart() {
-    if (head != NULL) {
+    if (head != nullptr) {
         NodeDoubleList<T>* toDelete = head;
         head = head->next;
-        if (head != NULL) {
-            head->prev = NULL;
+        if (head != nullptr) {
+            head->prev = nullptr;
         }
         delete toDelete;
         length--;
@@ -104,7 +104,7 @@ void DoublyLinkedList<T>::removeAtStart() {
 
 template <typename T>
 void DoublyLinkedList<T>::removeAtRandom() {
-    if (head != NULL) {
+    if (head != nullptr) {
         int position = rand() % length;
         if (position == 0) {
             removeAtStart();
@@ -125,11 +125,11 @@ void DoublyLinkedList<T>::removeAtRandom() {
 
 template <typename T>
 void DoublyLinkedList<T>::removeAtEnd() {
-    if (tail != NULL) {
+    if (tail != nullptr) {
         NodeDoubleList<T>* toDelete = tail;
         tail = tail->prev;
-        if (tail != NULL) {
-            tail->next = NULL;
+        if (tail != nullptr) {
+            tail->next = nullptr;
         }
         delete toDelete;
         length--;
@@ -140,7 +140,7 @@ template <typename T>
 int DoublyLinkedList<T>::find(T data) {
     NodeDoubleList<T>* current = head;
     int position = 0;
-    while (current != NULL) {
+    while (current != nullptr) {
         if (current->data == data) {
             return position;
         }
@@ -170,7 +170,7 @@ int DoublyLinkedList<T>::size() {
 template <typename T>
 void DoublyLinkedList<T>::print() {
     NodeDoubleList<T>* current = head;
-    while (current != NULL) {
+    while (current != nullptr) {
         std::cout << current->data << " ";
         current = current->next;
     }

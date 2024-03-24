@@ -484,24 +484,16 @@ void testOperation(Structure* &structure, const std::string& operationType, T op
 }
 
 template<typename Structure>
-void performTests(std::ofstream& output, std::string structureName) {
-    int sizes[] = {1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000};
-    std::string operations[] = {"addAtStart", "addAtEnd", "addAtRandom", "removeAtStart", "removeAtEnd", "removeAtRandom", "find"};
-    int toAdd = -1;
-
-    for (int size : sizes) {
-        int removeOperationArgument = rand() % size + 1;
-        int findOperationArgument = rand() % size + 1;
-        for (const std::string& operation : operations) {
-            for (int i = 1; i <= 10; i++) {
-                std::string fileName = "list_" + std::to_string(size) + ".txt";
-                Structure* structure = new Structure(fileName.c_str());
-                testOperation(structure, operation, toAdd, removeOperationArgument,
-                findOperationArgument, i, size, output, structureName);
-                delete structure;
-                std::cout << "Iteration " << i << " - " << operation << " on structure " << structureName << " - " << size << " elements has ended." << std::endl;
-            }
-        }
+void performTests(std::ofstream& output, std::string structureName,
+        int size, const std::string& operation, int toAdd,
+        int removeOperationArgument, int findOperationArgument) {
+    for (int i = 1; i <= 10; i++) {
+        std::string fileName = "list_" + std::to_string(size) + ".txt";
+        Structure* structure = new Structure(fileName.c_str());
+        testOperation(structure, operation, toAdd, removeOperationArgument,
+        findOperationArgument, i, size, output, structureName);
+        delete structure;
+        std::cout << "Iteration " << i << " - " << operation << " on structure " << structureName << " - " << size << " elements has ended." << std::endl;
     }
 }
 
@@ -513,11 +505,23 @@ void testStructures(MENU *main_menu) {
     output << "iteration;type;size;action;timeMs\n";
     int line = 0;
 
+    std::string operations[] = {"addAtStart", "addAtEnd", "addAtRandom", "removeAtStart", "removeAtEnd", "removeAtRandom", "find"};
+    int sizes[] = {1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000};
+
     start = clock();
-    performTests<ArrayList<int>>(output, "ArrayList");
-    performTests<SinglyLinkedHeadList<int>>(output, "SinglyLinkedHeadList");
-    performTests<SinglyLinkedHeadTailList<int>>(output, "SinglyLinkedHeadTailList");
-    performTests<DoublyLinkedList<int>>(output, "DoublyLinkedList");    
+
+    for (const std::string& operation : operations) {
+        for (int size : sizes) {
+            int removeOperationArgument = rand() % size + 1;
+            int addOperationArgument = rand() % size + 1;
+            int findOperationArgument = rand() % 10000;
+            performTests<ArrayList<int>>(output, "ArrayList", size, operation, addOperationArgument, removeOperationArgument, findOperationArgument);
+            performTests<SinglyLinkedHeadList<int>>(output, "SinglyLinkedHeadList", size, operation, addOperationArgument, removeOperationArgument, findOperationArgument);
+            performTests<SinglyLinkedHeadTailList<int>>(output, "SinglyLinkedHeadTailList", size, operation, addOperationArgument, removeOperationArgument, findOperationArgument);
+            performTests<DoublyLinkedList<int>>(output, "DoublyLinkedList", size, operation, addOperationArgument, removeOperationArgument, findOperationArgument); 
+        }
+    }
+       
     end = clock();
 
     output.close();

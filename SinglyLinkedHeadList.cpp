@@ -4,11 +4,11 @@
 #include <fstream>
 
 template <typename T>
-SinglyLinkedHeadList<T>::SinglyLinkedHeadList() : head(NULL), length(0) {}
+SinglyLinkedHeadList<T>::SinglyLinkedHeadList() : head(nullptr), length(0) {}
 
 template <typename T>
 SinglyLinkedHeadList<T>::~SinglyLinkedHeadList() {
-    while (head != NULL) {
+    while (head != nullptr) {
         Node<T>* next = head->next;
         delete head;
         head = next;
@@ -16,20 +16,25 @@ SinglyLinkedHeadList<T>::~SinglyLinkedHeadList() {
 }
 
 template <typename T>
-SinglyLinkedHeadList<T>::SinglyLinkedHeadList(const char* filename) : head(NULL), length(0) {
-    srand(time(0));
-    int lines = 0;
+SinglyLinkedHeadList<T>::SinglyLinkedHeadList(const char* filename) : head(nullptr), length(0) {
     std::ifstream file(filename);
     if (file.is_open()) {
         T item;
+        Node<T>* last = nullptr; // Tymczasowy wskaźnik na ostatni element
         while (file >> item) {
-            addAtEnd(item);
-            lines++;
+            Node<T>* newNode = new Node<T>{item, nullptr};
+            if (last == nullptr) { // Lista jest pusta
+                head = newNode;
+                last = newNode; // Teraz last wskazuje na pierwszy (i jedyny) element
+            } else {
+                last->next = newNode; // Dodaj nowy węzeł na końcu listy
+                last = newNode; // Aktualizacja wskaźnika na ostatni element
+            }
+            length++;
         }
-        file.close();
     }
-    length = lines;
 }
+
 
 template <typename T>
 void SinglyLinkedHeadList<T>::addAtStart(T data) {
@@ -42,7 +47,7 @@ void SinglyLinkedHeadList<T>::addAtStart(T data) {
 
 template <typename T>
 void SinglyLinkedHeadList<T>::removeAtStart() {
-    if (head != NULL) {
+    if (head != nullptr) {
         Node<T>* toDelete = head;
         head = head->next;
         delete toDelete;
@@ -52,15 +57,15 @@ void SinglyLinkedHeadList<T>::removeAtStart() {
 
 template <typename T>
 void SinglyLinkedHeadList<T>::addAtRandom(T data) {
-    if (head == NULL) {
+    if (head == nullptr) {
         addAtStart(data);
     } else {
         Node<T>* newNode = new Node<T>;
         newNode->data = data;
-        newNode->next = NULL;
+        newNode->next = nullptr;
         Node<T>* current = head;
         int position = rand() % (length + 1);
-        for (int i = 0; i < position - 1 && current != NULL; i++) {
+        for (int i = 0; i < position - 1 && current != nullptr; i++) {
             current = current->next;
         }
         newNode->next = current->next;
@@ -73,12 +78,12 @@ template <typename T>
 void SinglyLinkedHeadList<T>::addAtEnd(T data) {
     Node<T>* newNode = new Node<T>;
     newNode->data = data;
-    newNode->next = NULL;
-    if (head == NULL) {
+    newNode->next = nullptr;
+    if (head == nullptr) {
         head = newNode;
     } else {
         Node<T>* current = head;
-        while (current->next != NULL) {
+        while (current->next != nullptr) {
             current = current->next;
         }
         current->next = newNode;
@@ -88,12 +93,12 @@ void SinglyLinkedHeadList<T>::addAtEnd(T data) {
 
 template <typename T>
 void SinglyLinkedHeadList<T>::removeAtRandom() {
-    if (head == NULL) {
+    if (head == nullptr) {
         return; // Lista jest pusta, nie ma co usuwać
-    } else if (head->next == NULL) {
+    } else if (head->next == nullptr) {
         // Lista ma tylko jeden element, więc usuwamy głowę
         delete head;
-        head = NULL;
+        head = nullptr;
     } else {
         int position = rand() % length; // Losowanie pozycji od 0 do length - 1
         if (position == 0) {
@@ -113,18 +118,18 @@ void SinglyLinkedHeadList<T>::removeAtRandom() {
 
 template <typename T>
 void SinglyLinkedHeadList<T>::removeAtEnd() {
-    if (head == NULL) {
+    if (head == nullptr) {
         return;
-    } else if (head->next == NULL) {
+    } else if (head->next == nullptr) {
         delete head;
-        head = NULL;
+        head = nullptr;
     } else {
         Node<T>* current = head;
-        while (current->next->next != NULL) {
+        while (current->next->next != nullptr) {
             current = current->next;
         }
         delete current->next;
-        current->next = NULL;
+        current->next = nullptr;
     }
     length--;
 }
@@ -133,7 +138,7 @@ template <typename T>
 int SinglyLinkedHeadList<T>::find(T data) {
     Node<T>* current = head;
     int index = 0;
-    while (current != NULL) {
+    while (current != nullptr) {
         if (current->data == data) {
             return index;
         }
@@ -163,7 +168,7 @@ int SinglyLinkedHeadList<T>::size() {
 template <typename T>
 void SinglyLinkedHeadList<T>::print() {
     Node<T>* current = head;
-    while (current != NULL) {
+    while (current != nullptr) {
         std::cout << current->data << " ";
         current = current->next;
     }
