@@ -43,7 +43,8 @@ void printIntro() {
     mvprintw(6, 0, "Project 1 - Data Structures | Adrian Goral 272545 | Paulina Szulc 272592");
 }
 
-void displaySubChoices(const char *choice, MENU *main_menu) {
+template<typename Structure>
+void displaySubChoices(const char *choice, MENU* main_menu, Structure* &structure) {
     const char *subChoices[] = {
         "Create Empty Structure",
         "Build from file",
@@ -102,59 +103,22 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     clear();
                     //check which structure is selected
                     mvprintw(0, 0, "Press any key to return to main menu");
-                    if (strcmp(choice, "Array List") == 0) {
-                        mvprintw(1, 0, "Array List: ");
-                        for (int i = 0; i < arrayList->size(); ++i) {+
-                            mvprintw(i+2, 0, "%d", arrayList->get(i));
-                        }
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        mvprintw(1, 0, "Singly Linked List - Head: ");
-                        for (int i = 0; i < singlyLinkedHeadList->size(); ++i) {
-                            mvprintw(i+2, 0, "%d", singlyLinkedHeadList->get(i));
-                        }
-
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        mvprintw(1, 0, "Singly Linked List - Head & Tail: ");
-                        for (int i = 0; i < singlyLinkedHeadTailList->size(); ++i) {
-                            mvprintw(i+2, 0, "%d", singlyLinkedHeadTailList->get(i));
-                        }
-
-                    }
-                    else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        mvprintw(1, 0, "Doubly Linked List: ");
-                        for (int i = 0; i < doublyLinkedList->size(); ++i) {
-                            mvprintw(i+2, 0, "%d", doublyLinkedList->get(i));
-                        }
+                    for (int i = 0; i < structure->size(); ++i) {
+                        mvprintw(i+1, 0, "%d", structure->get(i));
                     }
                     leave = true;
                     break;
-                }
-                else if (strcmp(item_name(cur_item), "Exit") == 0) {
+                } else if (strcmp(item_name(cur_item), "Exit") == 0) {
                     leave = true;
                     break;
-                }
-                else if (strcmp(item_name(cur_item), "Create Empty Structure") == 0) {
+                } else if (strcmp(item_name(cur_item), "Create Empty Structure") == 0) {
                     clear();
                     mvprintw(0, 0, "Press any key to return to main menu");
-                    if (strcmp(choice, "Array List") == 0) {
-                        arrayList = new ArrayList<int>();
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        singlyLinkedHeadList = new SinglyLinkedHeadList<int>();
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        singlyLinkedHeadTailList = new SinglyLinkedHeadTailList<int>();
-                    }
-                    else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        doublyLinkedList = new DoublyLinkedList<int>();
-                    }
+                    structure = new Structure();
                     mvprintw(1, 0, "Empty structure created");
                     leave = true;
                     break;
-                }
-                else if (strcmp(item_name(cur_item), "Build from file") == 0) {
+                } else if (strcmp(item_name(cur_item), "Build from file") == 0) {
                     clear();
                     mvprintw(0, 0, "Build from file");
                     std::vector<std::string> files = txtFilesInDirectory();
@@ -168,25 +132,12 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     scanw("%d", &fileNumber);
                     noecho();
                     //check which structure is selected
-                    if (strcmp(choice, "Array List") == 0) {
-                        //build array list from file
-                        arrayList = new ArrayList<int>(files[fileNumber - 1].c_str());
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        singlyLinkedHeadList = new SinglyLinkedHeadList<int>(files[fileNumber - 1].c_str());
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        singlyLinkedHeadTailList = new SinglyLinkedHeadTailList<int>(files[fileNumber - 1].c_str());
-                    }
-                    else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        doublyLinkedList = new DoublyLinkedList<int>(files[fileNumber - 1].c_str());
-                    }
+                    structure = new Structure(files[fileNumber - 1].c_str());
                     mvprintw(files.size()+3, 0, "Structure built from file");
                     mvprintw(files.size()+4, 0, "Press any key to return to main menu");
                     leave = true;
                     break;
-                }
-                else if (strcmp(item_name(cur_item), "Add element at start") == 0) {
+                } else if (strcmp(item_name(cur_item), "Add element at start") == 0) {
                     clear();
                     int element;
                     echo();
@@ -194,228 +145,85 @@ void displaySubChoices(const char *choice, MENU *main_menu) {
                     scanw("%d", &element);
                     noecho();
                     //check which structure is selected
-                    if (strcmp(choice, "Array List") == 0) {
-                        //add element at start
-                        arrayList->addAtStart(element);
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        //add element at start
-                        singlyLinkedHeadList->addAtStart(element);
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        singlyLinkedHeadTailList->addAtStart(element);
-                    }
-                    else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        //add element at start
-                        doublyLinkedList->addAtStart(element);
-                    }
-                    
+                    structure->addAtStart(element);
                     mvprintw(0, 0, "Element added at start");
                     mvprintw(1, 0, "Press any key to return to main menu");
                     leave = true;
                     break;
-                }
-                else if (strcmp(item_name(cur_item), "Add element at end") == 0) {
+                } else if (strcmp(item_name(cur_item), "Add element at end") == 0) {
                     clear();
                     int element;
                     echo();
                     mvprintw(0, 0, "Enter element to add: ");
                     scanw("%d", &element);
                     noecho();
-
-                    if (strcmp(choice, "Array List") == 0) {
-                        //add element at end
-                        arrayList->addAtEnd(element);
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        //add element at end
-                        singlyLinkedHeadList->addAtEnd(element);
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        singlyLinkedHeadTailList->addAtEnd(element);
-                    }
-                    else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        //add element at end
-                        doublyLinkedList->addAtEnd(element);
-                    }
-
+                    structure->addAtEnd(element);
                     mvprintw(0, 0, "Element added at end");
                     mvprintw(1, 0, "Press any key to return to main menu");
                     leave = true;
                     break;
-                }
-                else if (strcmp(item_name(cur_item), "Add element at random position") == 0) {
+                } else if (strcmp(item_name(cur_item), "Add element at random position") == 0) {
                     clear();
                     int element;
                     echo();
                     mvprintw(0, 0, "Enter element to add: ");
                     scanw("%d", &element);
                     noecho();
-                    
-                    if (strcmp(choice, "Array List") == 0) {
-                        //add element at random position
-                        arrayList->addAtRandom(element);
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        //add element at random position
-                        singlyLinkedHeadList->addAtRandom(element);
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        //add element at random position
-                        singlyLinkedHeadTailList->addAtRandom(element);
-                    }
-                    else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        //add element at random position
-                        doublyLinkedList->addAtRandom(element);
-                    }
-
+                    structure->addAtRandom(element);
                     mvprintw(0, 0, "Element added at random position");
                     mvprintw(1, 0, "Press any key to return to main menu");
                     leave = true;
                     break;
-                }
-                else if (strcmp(item_name(cur_item), "Remove element from start") == 0) {
+                } else if (strcmp(item_name(cur_item), "Remove element from start") == 0) {
                     clear();
-                    if (strcmp(choice, "Array List") == 0) {
-                        //remove element from start
-                        arrayList->removeAtStart();
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        //remove element from start
-                        singlyLinkedHeadList->removeAtStart();
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        //remove element from start
-                        singlyLinkedHeadTailList->removeAtStart();
-                    }
-                    else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        //remove element from start
-                        doublyLinkedList->removeAtStart();
-                    }
-
+                    structure->removeAtStart();
                     mvprintw(0, 0, "Element removed from start");
                     mvprintw(1, 0, "Press any key to return to main menu");
                     leave = true;
                     break;
-                }
-                else if (strcmp(item_name(cur_item), "Remove element from end") == 0) {
+                } else if (strcmp(item_name(cur_item), "Remove element from end") == 0) {
                     clear();
-                    if (strcmp(choice, "Array List") == 0) {
-                        //remove element from end
-                        arrayList->removeAtEnd();
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        //remove element from end
-                        arrayList->removeAtEnd();
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        //remove element from end
-                        singlyLinkedHeadTailList->removeAtEnd();
-                    }
-                    else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        //remove element from end
-                        doublyLinkedList->removeAtEnd();
-                    }
-
+                    structure->removeAtEnd();
                     mvprintw(0, 0, "Element removed from end");
                     mvprintw(1, 0, "Press any key to return to main menu");
                     leave = true;
                     break;
-                }
-                else if (strcmp(item_name(cur_item), "Remove element from random position") == 0) {
+                } else if (strcmp(item_name(cur_item), "Remove element from random position") == 0) {
                     clear();
-                    
-                    if (strcmp(choice, "Array List") == 0) {
-                        //remove element from random position
-                        arrayList->removeAtRandom();
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        //remove element from random position
-                        singlyLinkedHeadList->removeAtRandom();
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        //remove element from random position
-                        singlyLinkedHeadTailList->removeAtRandom();
-                    }
-                    else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        //remove element from random position
-                        doublyLinkedList->removeAtRandom();
-                    }
-
+                    structure->removeAtRandom();
                     mvprintw(0, 0, "Element removed from random position");
                     mvprintw(1, 0, "Press any key to return to main menu");
                     leave = true;
                     break;
-
-                }
-                else if (strcmp(item_name(cur_item), "Find element") == 0) {
+                } else if (strcmp(item_name(cur_item), "Find element") == 0) {
                     clear();
                     int element;
                     echo();
                     mvprintw(0, 0, "Enter element to find: ");
                     scanw("%d", &element);
                     noecho();
-                    int index = -1;
-
-                    if (strcmp(choice, "Array List") == 0) {
-                        //find element
-                        index = arrayList->find(element);
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        //find element
-                        index = singlyLinkedHeadList->find(element);
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        //find element
-                        index = singlyLinkedHeadTailList->find(element);
-                    }
-                    else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        //find element
-                        index = doublyLinkedList->find(element);
-                    }
-
-
+                    int index = structure->find(element);
                     if (index != -1) {
                         mvprintw(1, 0, "Element found at index: %d", index);
-                    }
-                    else {
+                    } else {
                         mvprintw(1, 0, "Element not found");
                     }
-
                     mvprintw(2, 0, "Press any key to return to main menu");
                     leave = true;
                     break;
-
-                }
-                else if (strcmp(item_name(cur_item), "Get element from index") == 0) {
+                } else if (strcmp(item_name(cur_item), "Get element from index") == 0) {
                     clear();
                     int index;
                     echo();
                     mvprintw(0, 0, "Enter index: ");
                     scanw("%d", &index);
                     noecho();
-                    int element;
-                    
-                    if (strcmp(choice, "Array List") == 0) {
-                        //get element from index
-                        element = arrayList->get(index);
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head") == 0) {
-                        //get element from index
-                        element = singlyLinkedHeadList->get(index);
-                    }
-                    else if (strcmp(choice, "Singly Linked List - Head & Tail") == 0) {
-                        //get element from index
-                        element = singlyLinkedHeadTailList->get(index);
-                    }
-                    else if (strcmp(choice, "Doubly Linked List") == 0) {
-                        //get element from index
-                        element = doublyLinkedList->get(index);
-                    }
-
+                    int element = structure->get(index);
                     mvprintw(1, 0, "Element at index %d: %d", index, element);
-
                     mvprintw(2, 0, "Press any key to return to main menu");
+                    leave = true;
+                    break;
+                } else if (strcmp(item_name(cur_item), "Exit") == 0) {
                     leave = true;
                     break;
                 }
@@ -600,14 +408,24 @@ int main() {
                     unpost_menu(my_menu);  // Odpięcie menu przed przejściem do sub-menu
                     clear();  // Wyczyszczenie ekranu przed przejściem do sub-menu
                     printIntro();
-                    displaySubChoices(item_name(cur_item), my_menu);  // Wyświetlenie sub-menu
+
+                    if (strcmp(item_name(cur_item), "Array List") == 0) {
+                        displaySubChoices(item_name(cur_item), my_menu, arrayList);
+                    } else if (strcmp(item_name(cur_item), "Singly Linked List - Head") == 0) {
+                        displaySubChoices(item_name(cur_item), my_menu, singlyLinkedHeadList);
+                    } else if (strcmp(item_name(cur_item), "Singly Linked List - Head & Tail") == 0) {
+                        displaySubChoices(item_name(cur_item), my_menu, singlyLinkedHeadTailList);
+                    } else if (strcmp(item_name(cur_item), "Doubly Linked List") == 0) {
+                        displaySubChoices(item_name(cur_item), my_menu, doublyLinkedList);
+                    }
+
                     refresh();
                 }
                 break;
             }
         }
     }
-
+    
     unpost_menu(my_menu);  // Odpięcie menu
     for(int i = 0; i < n_choices; ++i) {
         free_item(my_items[i]);  // Zwolnienie pamięci zajmowanej przez elementy
