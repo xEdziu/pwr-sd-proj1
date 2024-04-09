@@ -111,8 +111,12 @@ void SinglyLinkedHeadList<T>::removeAtRandom() {
             Node<T>* current = head;
             for (int i = 0; i < position - 1; i++) {
                 current = current->next; // Przesuwamy
+                Node<T>* toDelete = current->next;
+                current->next = toDelete->next;
+                delete toDelete;
             }
         }
+        length--;
     }
 }
 
