@@ -6,7 +6,7 @@
 
 # How to compile & run
 ## Compile
-- `g++ main.cpp ArrayList.cpp SinglyLinkedHeadList.cpp SinglyLinkedHeadTailList.cpp DoublyLinkedList.cpp -lncurses -lmenu -std=c++17`
+- `g++ -O0 main.cpp ArrayList.cpp SinglyLinkedHeadList.cpp SinglyLinkedHeadTailList.cpp DoublyLinkedList.cpp -lncurses -lmenu -std=c++17`
 
 ## Run
 - `./a.out`
